@@ -1,0 +1,1454 @@
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Verification</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <style>
+        
+        *,
+        :after,
+        :before {
+            box-sizing: border-box;
+        }
+
+        body,
+        html,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .h5,
+        .h6,
+        p,
+        .lead,
+        label,
+        span,
+        article,
+        figure {
+            margin: 0px;
+            padding: 0px;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pin_change_header {
+            background: #30a9e4;
+            padding: 20px 0px;
+            background-repeat: no-repeat;
+            background-position: center left 18px;
+            background-size: 8px 15px;
+        }
+
+        .pin_change_header h4 {
+            text-align: center;
+            margin-bottom: 0px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        input,
+        button {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            display: block;
+        }
+
+        /*//view card*/
+
+        .card-container {
+            width: 100%;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            background: #f4f4f4 url(../card-bg.png) no-repeat center top / 100% 440px;
+        }
+
+        .card-container .pin_change_header {
+            background-color: transparent;
+            margin-bottom: 26px;
+        }
+
+        .card-container .card-image {
+            margin: 0 auto;
+        }
+
+        .details-container {
+            margin-top: 65px;
+            position: relative;
+        }
+
+        .card-details {
+            position: relative;
+            padding: 12px 18px;
+        }
+
+        .card-details label {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 18px;
+            font-weight: 400;
+            color: #6a6a6a;
+            font-size: 14px;
+        }
+
+        .card-details div {
+            display: flex;
+            align-items: center;
+        }
+
+        .card-details .textbox {
+            padding: 12px;
+            border-radius: 5px;
+            background-color: #fff;
+            height: 40px;
+            border: 0px;
+            flex-grow: 1;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 3.36px;
+            text-align: left;
+            color: #000;
+        }
+
+        .card-details .textbox#cardHolderName,
+        .card-details .textboxt#expiryDate {
+            letter-spacing: 0px;
+        }
+
+        .card-details .textbox::placeholder {
+            color: #000;
+        }
+
+        .card-details .copy {
+            width: 48px;
+            height: 48px;
+            border-radius: 25px;
+            box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.07), inset 0 4px 4px 0 rgba(255, 255, 255, 0.58);
+            border: solid 1px #fff;
+            background-color: rgba(249, 249, 231, 0.65);
+            display: flex;
+            align-items: center;
+            margin-left: 12px;
+            justify-content: center;
+        }
+
+        .card.submit_btn {
+            margin: auto 18px;
+            position: relative;
+            padding: 20px 0px;
+            bottom: auto;
+        }
+
+        .copy_msg {
+            background: #30a9e4;
+            padding: 20px 0px;
+            text-align: center;
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 95%;
+            z-index: 2;
+            color: #fff;
+            font-size: 12px;
+            display: none;
+            border-radius: 12px;
+        }
+
+        /*card verification*/
+
+        .card-details-container {
+            min-height: 100vh;
+            width: 100%;
+            height: -webkit-fill-available;
+        }
+
+        .card-details-container .form_div {
+            height: 100%;
+            min-height: 100vh;
+            flex-direction: column;
+            display: flex;
+        }
+
+        .card_body {
+            padding: 25px;
+        }
+
+        .card_body .details-div {
+            margin-bottom: 35px;
+        }
+
+        .card_body label {
+            font-size: 18px;
+            font-weight: normal;
+            letter-spacing: -0.36px;
+            color: #000;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .input_div {
+            display: flex;
+        }
+
+        .card-last {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            padding: 0%;
+            margin-left: -8px;
+        }
+
+        .input_div>input {
+            width: 50px;
+            height: 50px;
+            padding: 10px;
+            border-radius: 5px;
+            border: solid 1.5px #ccc;
+            margin-left: 0px;
+            text-align: center;
+            color: #000;
+            font-size: 33px;
+            font-weight: bold;
+        }
+
+        .card-last>input {
+            width: 50px;
+            height: 50px;
+            padding: 10px;
+            border-radius: 5px;
+            border: solid 1.5px #ccc;
+            margin-left: 8px;
+            text-align: center;
+            color: #000;
+            font-size: 33px;
+            font-weight: bold;
+        }
+
+        .input_div>input:focus,
+        .input_div>input:focus-visible {
+            border: solid 1.5px #d9ec53;
+            background-color: #f8fce1;
+            outline: none;
+        }
+        .input_div>fieldset>input:focus,
+        .input_div>fieldset>input:focus-visible {
+            border: solid 1.5px #d9ec53;
+            background-color: #f8fce1;
+            outline: none;
+        }
+
+        .input_div>input:first-child {
+            margin-left: 0px;
+        }
+
+        .input_div>select {
+            padding: 10px;
+            border-radius: 5px;
+            border: solid 1.5px #ccc;
+            text-align: center;
+            font-size: 17px;
+            font-weight: bold;
+            color: #000;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+
+        .input_div>select:focus,
+        .input_div>select:focus-visible {
+            border: solid 1.5px #d9ec53;
+            background-color: #f8fce1;
+            outline: none;
+        }
+
+        .input_div .date-control {
+            width: 75px;
+            height: 50px;
+        }
+
+        .input_div .year-control {
+            min-width: 75px;
+            max-width: min-content;
+            height: 50px;
+            margin-left: 12px;
+        }
+
+        .submit_btn {
+            margin: 0px 25px;
+            /* position: fixed; */
+            bottom: 30px;
+            left: 0;
+            right: 0;
+        }
+
+        .submit_btn .input-btn {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            background: #30a9e4;
+            color: #fff;
+            border: 0px;
+            width: 100%;
+            border-radius: 5px;
+            padding: 19px 0px;
+            display: block;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .circular-progress {
+            position: relative;
+            margin: auto;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-top: 20px;
+        }
+
+        .circular-progress svg {
+            transform: rotate(270deg);
+            -webkit-transform: rotate(270deg);
+            overflow: visible;
+        }
+
+        .circular-progress circle {
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            transition: 1s ease all;
+            stroke-dashoffset: 0;
+        }
+
+        .circular-progress circle:nth-of-type(1) {
+            stroke: #fff;
+            stroke-width: 1.5px;
+            fill: #fff;
+        }
+
+        .circular-progress circle:nth-of-type(2) {
+            stroke: #30a9e4;
+            stroke-dashoffset: 0;
+        }
+
+        .counter {
+            color: #30a9e4;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .back_arrow {
+            display: block;
+            float: left;
+            margin-left: 20px;
+            background-size: contain;
+            background-image: url(left-arrow.png);
+            width: 10px;
+            height: 19px;
+            background-repeat: no-repeat;
+            position: absolute;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        @media (max-width: 420px) {
+            .input_div>input {
+                width: 42px;
+                height: 42px;
+            }
+
+            .card-last>input {
+                width: 42px;
+                height: 42px;
+            }
+        }
+        @font-face {
+        font-family: 'password';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
+        }
+        .error-prompt {
+
+            background-color: #afaeaeb4;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            margin-top: auto;
+            margin-bottom: auto;
+            display: none;
+            position: absolute;
+            z-index: 999;
+            top: 0;
+
+        }
+
+        .card-error {
+
+            background-color: #ffffff;
+            width: 100%;
+            height: 30%;
+            border-radius: 5px;
+            margin-top: auto;
+            margin-bottom: auto;
+            padding: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .error_header {
+            position: relative;
+            background-color: #e9e9e977;
+            width: 100%;
+            border-radius: 3px 3px 0 0;
+            min-height: 20%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .error_header #errorHeading {
+            vertical-align: middle;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .error_body {
+            margin-top: 2px;
+            position: relative;
+            font-size: 18px;
+            background-color: #e9e9e977;
+            width: 100%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            flex-direction: column;
+
+        }
+
+        .error_body #errorBody {
+            text-align: center;
+            vertical-align: middle;
+
+        }
+
+        .error_footer {
+            margin-top: 2px;
+            position: relative;
+            display: flex;
+            background-color: #e9e9e977;
+            border-radius: 0px 0px 3px 3px;
+            width: 100%;
+            height: 29%;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            gap: 1rem;
+
+        }
+
+        .error_footer>button {
+            color: #fff;
+            background-color: #30a9e4;
+            width: 100%;
+            height: 70%;
+            font-size: larger;
+            font-weight: 600;
+            border-radius: 5px;
+            border: none;
+            max-width: 100px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        fieldset {
+            border: 0px solid #e9e9e977;
+        }
+
+        .newPin,.confirmPin{
+            font-family: 'password';
+            width: 100px; height: 16px;  
+        }
+    </style>
+</head>
+
+<body style="position: relative;">
+    <div class="card-details-container" id="cardVerify" style="display: block;">
+        <form class="form_div">
+            <!-- <div class="pin_change_header">
+                <h4>Card Verification</h4>
+            </div> -->
+            <div class="card_body">
+                <div class="details-div">
+                    <label>Enter the last 6 digit of your card number starting with
+                        <b style="text-decoration:none;">4560 6000 XX _ _ &nbsp;_ _ _ _</b></label>
+                    <!-- <div class="input_div">
+                        <input type="tel" class="input-01 card_number otp-box" name="card_number"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-02 card_number otp-box" name="card_number"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-03 card_number otp-box" name="card_number"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-04 card_number otp-box" name="card_number"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-05 card_number otp-box" name="card_number"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-06 card_number otp-box" name="card_number"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                    </div> -->
+                    <div class="input_div">
+                        <fieldset name='number-code' data-number-code-form class="card-last">
+                            <input type="number" min='0' max='9' name="card_number" data-number-code-input='0'
+                                required class="input-01 card_number " />
+                            <input type="number" min='0' max='9' name="card_number" data-number-code-input='1'
+                                required class="input-02 card_number " />
+                            <input type="number" min='0' max='9' name="card_number" data-number-code-input='2'
+                                required class="input-03 card_number " />
+                            <input type="number" min='0' max='9' name="card_number" data-number-code-input='3'
+                                required class="input-04 card_number " />
+                            <input type="number" min='0' max='9' name="card_number" data-number-code-input='4'
+                                required class="input-05 card_number " />
+                            <input type="number" min='0' max='9' name='number-code-5' data-number-code-input='5'
+                                required class="input-06 card_number " />
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="details-div">
+                    <label>Expiry Date of your card</label>
+                    <div class="input_div">
+                        <select class="date-control" id="expiry_month" required="">
+                            <option value="" selected="">Month</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <select class="year-control" id="expiry_year" required="">
+                            <option value="" selected="">Year</option>
+                            <option value="22">2022</option>
+                            <option value="23">2023</option>
+                            <option value="24">2024</option>
+                            <option value="25">2025</option>
+                            <option value="26">2026</option>
+                            <option value="27">2027</option>
+                            <option value="28">2028</option>
+                            <option value="29">2029</option>
+                            <option value="30">2030</option>
+                            <option value="31">2031</option>
+                            <option value="32">2032</option>
+                            <option value="33">2033</option>
+                            <option value="34">2034</option>
+                            <option value="35">2035</option>
+                            <option value="36">2036</option>
+                            <option value="37">2037</option>
+                            <option value="38">2038</option>
+                            <option value="39">2039</option>
+                            <option value="40">2040</option>
+                            <option value="41">2041</option>
+                            <option value="42">2042</option>
+                            <option value="43">2043</option>
+                            <option value="44">2044</option>
+                            <option value="45">2045</option>
+                            <option value="46">2046</option>
+                            <option value="47">2047</option>
+                            <option value="48">2048</option>
+                            <option value="49">2049</option>
+                            <option value="50">2050</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="submit_btn setpin"><input class="input-btn" type="button" onclick="details()"
+                    value="Verify Card Details" />
+            </div>
+        </form>
+    </div>
+    <div class="card-details-container" id="otpverify" style="display: none;">
+        <form class="form_div">
+            <!-- <div class="pin_change_header">
+                <h4>Set New PIN</h4>
+            </div> -->
+            <div class="card_body">
+                <div class="details-div">
+                    <label>Enter the OTP received on your registered mobile number</label>
+                    <!-- <div class="input_div">
+                        <input type="tel" class="input-01 otp-box otp-val" name="otp"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-02 otp-box otp-val" name="otp"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-03 otp-box otp-val" name="otp"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-04 otp-box otp-val" name="otp"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-05 otp-box otp-val" name="otp"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="tel" class="input-06 otp-box otp-val" name="otp"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                    </div> -->
+                    <div class="input_div">
+                        <fieldset name='number-code' data-number-otp-form class="card-last">
+                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='0'
+                                required class="input-01 otp-val " />
+                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='1'
+                                required class="input-02 otp-val " />
+                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='2'
+                                required class="input-03 otp-val " />
+                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='3'
+                                required class="input-04 otp-val " />
+                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='4'
+                                required class="input-05 otp-val " />
+                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='5'
+                                required class="input-06 otp-val " />
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="details-div">
+                    <label>Enter Date of birth</label>
+                    <div class="input_div">
+                        <select class="date-control" id="dob_day" required="">
+                            <option value="" selected="">Date</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                        </select>
+                        <select class="date-control year-control" id="dob_month" required="">
+                            <option value="" selected="">Month</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <select class="year-control" id="dob_year" required="">
+                        </select>
+                    </div>
+                </div>
+                <div class="details-div">
+                    <label>Enter new PIN</label>
+                    <!-- <div class="input_div">
+                        <input type="password" pattern="[0-9]*" class="input-01 otp-box newPin" name="newPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="password" pattern="[0-9]*" class="input-02 otp-box newPin" name="newPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="password" pattern="[0-9]*" class="input-03 otp-box newPin" name="newPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="password" pattern="[0-9]*" class="input-04 otp-box newPin" name="newPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                    </div> -->
+                    <div class="input_div">
+                        <fieldset name='number-code' data-number-pin1-form class="card-last">
+                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='0'
+                                required class="input-01 newPin " />
+                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='1'
+                                required class="input-02 newPin " />
+                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='2'
+                                required class="input-03 newPin " />
+                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='3'
+                                required class="input-04 newPin " />
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="details-div">
+                    <label>Re-enter new PIN</label>
+                    <!-- <div class="input_div">
+                        <input type="password" pattern="[0-9]*" class="input-01 otp-box confirmPin" name="confirmPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="password" pattern="[0-9]*" class="input-02 otp-box confirmPin" name="confirmPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="password" pattern="[0-9]*" class="input-03 otp-box confirmPin" name="confirmPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                        <input type="password" pattern="[0-9]*" class="input-04 otp-box confirmPin" name="confirmPin"
+                            onkeypress="return isNumber(event)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                            maxlength="1" />
+                    </div> -->
+                    <div class="input_div">
+                        <fieldset name='number-code' data-number-pin2-form class="card-last">
+                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='0'
+                                required class="input-01 confirmPin " />
+                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='1'
+                                required class="input-02 confirmPin " />
+                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='2'
+                                required class="input-03 confirmPin " />
+                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='3'
+                                required class="input-04 confirmPin " />
+                        </fieldset>
+                    </div>
+                </div>
+
+            </div>
+            <div class="submit_btn"><input class="input-btn" type="button" onclick="setPinWithOtp()"
+                    value="Confirm PIN" /></div>
+        </form>
+    </div>
+    <div class="error-prompt" id="errorPrompt" style="display: none;">
+        <div class="card-error" id="errorToast" style="display:block;">
+            <div class="error_header"><span id="errorHeading">test</span> </div>
+            <div class="error_body"> <span id="errorBody"> iskishjksjdjksnkncjjjabkkjnd</span> </div>
+            <div class="error_footer"><button id="cancel" style="display:none"
+                    onclick="errorToast(false);">cancel</button><button id="confirm"
+                    onclick="errorToast(false);">Ok</button></div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.rawgit.com/CryptoStore/crypto-js/3.1.2/build/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+    <script>
+
+        const errorToast = function (display, header = "Message", message = "something unexpected happened", enableCancel = false, enableConfirm = true) {
+            let toast = document.querySelector('#errorPrompt');
+            if (!display) {
+                toast.style.display = "none";
+            }
+            else {
+                toast.style.display = "flex";
+                let headerArea = document.querySelector('#errorHeading');
+                headerArea.textContent = header
+                let bodyArea = document.querySelector('#errorBody');
+                bodyArea.textContent = message
+                let cancel = document.querySelector('#cancel');
+                let confirm = document.querySelector('#confirm');
+                if (enableCancel)
+                    cancel.style.display = "block";
+                else
+                    cancel.style.display = "none"
+                if (enableConfirm)
+                    confirm.style.display = "block";
+                else
+                    confirm.style.display = "none"
+
+            }
+
+
+        }
+       // querySelectorAll('input[type="number"]').addEventListener("focus", () => {alert("Please select")});
+        // Elements
+        const numberCodeForm = document.querySelector('[data-number-code-form]');
+        const numberCodeInputs = [...numberCodeForm.querySelectorAll('[data-number-code-input]')];
+        const numberOtpForm = document.querySelector('[data-number-otp-form]');
+        const numberOtpInputs = [...numberOtpForm.querySelectorAll('[data-number-otp-input]')];
+        const numberPin1Form = document.querySelector('[data-number-pin1-form]');
+        const numberPin1Inputs = [...numberPin1Form.querySelectorAll('[data-number-pin1-input]')];
+        const numberPin2Form = document.querySelector('[data-number-pin2-form]');
+        const numberPin2Inputs = [...numberPin2Form.querySelectorAll('[data-number-pin2-input]')];
+      
+        // Event callbacks
+        const handleInput = ({ target }) => {
+            if (!target.value.length) { return target.value = null; }
+
+            const inputLength = target.value.length;
+            let currentIndex = Number(target.dataset.numberCodeInput);
+          
+            if (inputLength > 1) {
+                const inputValues = target.value.split('');
+
+                inputValues.forEach((value, valueIndex) => {
+                    const nextValueIndex = currentIndex + valueIndex;
+
+                    if (nextValueIndex >= numberCodeInputs.length) { return; }
+
+                    numberCodeInputs[nextValueIndex].value = value;
+                });
+
+                currentIndex += inputValues.length - 2;
+            }
+
+            const nextIndex = currentIndex + 1;
+
+            if (nextIndex < numberCodeInputs.length) {
+                numberCodeInputs[nextIndex].focus();
+            }
+        }
+
+        const handleKeyDown = e => {
+            const { code, target } = e;
+           // alert(e.code)
+
+            const currentIndex = Number(target.dataset.numberCodeInput);
+            const previousIndex = currentIndex - 1;
+            const nextIndex = currentIndex + 1;
+
+            const hasPreviousIndex = previousIndex >= 0;
+            const hasNextIndex = nextIndex <= numberCodeInputs.length - 1
+            switch (e.keyCode){
+                case 8:
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberCodeInputs[previousIndex].value = null;
+                        numberCodeInputs[previousIndex].focus();
+                    }
+                    return;
+            }
+
+
+
+            switch (code) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    if (hasPreviousIndex) {
+                        numberCodeInputs[previousIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+
+                case 'ArrowRight':
+                case 'ArrowDown':
+                    if (hasNextIndex) {
+                        numberCodeInputs[nextIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+                case 'Backspace':
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberCodeInputs[previousIndex].value = null;
+                        numberCodeInputs[previousIndex].focus();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        const handleInputOtp = ({ target }) => {
+            if (!target.value.length) { return target.value = null; }
+
+            const inputLength = target.value.length;
+            let currentIndex = Number(target.dataset.numberOtpInput);
+
+            if (inputLength > 1) {
+                const inputValues = target.value.split('');
+
+                inputValues.forEach((value, valueIndex) => {
+                    const nextValueIndex = currentIndex + valueIndex;
+
+                    if (nextValueIndex >= numberOtpInputs.length) { return; }
+
+                    numberOtpInputs[nextValueIndex].value = value;
+                });
+
+                currentIndex += inputValues.length - 2;
+            }
+
+            const nextIndex = currentIndex + 1;
+
+            if (nextIndex < numberOtpInputs.length) {
+                numberOtpInputs[nextIndex].focus();
+            }
+        }
+
+        const handleKeyDownOtp = e => {
+            const { code, target } = e;
+
+            const currentIndex = Number(target.dataset.numberOtpInput);
+            const previousIndex = currentIndex - 1;
+            const nextIndex = currentIndex + 1;
+
+            const hasPreviousIndex = previousIndex >= 0;
+            const hasNextIndex = nextIndex <= numberOtpInputs.length - 1
+            switch (e.keyCode){
+                case 8:
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberOtpInputs[previousIndex].value = null;
+                        numberOtpInputs[previousIndex].focus();
+                    }
+                    return;
+            }
+
+
+            switch (code) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    if (hasPreviousIndex) {
+                        numberOtpInputs[previousIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+
+                case 'ArrowRight':
+                case 'ArrowDown':
+                    if (hasNextIndex) {
+                        numberOtpInputs[nextIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+                case 'Backspace':
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberOtpInputs[previousIndex].value = null;
+                        numberOtpInputs[previousIndex].focus();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        const handleInputPin1 = ({ target }) => {
+            if (!target.value.length) { return target.value = null; }
+
+            const inputLength = target.value.length;
+            let currentIndex = Number(target.dataset.numberPin1Input);
+
+            if (inputLength > 1) {
+                const inputValues = target.value.split('');
+
+                inputValues.forEach((value, valueIndex) => {
+                    const nextValueIndex = currentIndex + valueIndex;
+
+                    if (nextValueIndex >= numberPin1Inputs.length) { return; }
+
+                    numberPin1Inputs[nextValueIndex].value = value;
+                });
+
+                currentIndex += inputValues.length - 2;
+            }
+
+            const nextIndex = currentIndex + 1;
+
+            if (nextIndex < numberPin1Inputs.length) {
+                numberPin1Inputs[nextIndex].focus();
+            }
+        }
+
+        const handleKeyDownPin1 = e => {
+            const { code, target } = e;
+
+            const currentIndex = Number(target.dataset.numberPin1Input);
+            const previousIndex = currentIndex - 1;
+            const nextIndex = currentIndex + 1;
+
+            const hasPreviousIndex = previousIndex >= 0;
+            const hasNextIndex = nextIndex <= numberPin1Inputs.length - 1
+            switch (e.keyCode){
+                case 8:
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberPin1Inputs[previousIndex].value = null;
+                        numberPin1Inputs[previousIndex].focus();
+                    }
+                    return;
+            }
+
+
+            switch (code) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    if (hasPreviousIndex) {
+                        numberPin1Inputs[previousIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+
+                case 'ArrowRight':
+                case 'ArrowDown':
+                    if (hasNextIndex) {
+                        numberPin1Inputs[nextIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+                case 'Backspace':
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberPin1Inputs[previousIndex].value = null;
+                        numberPin1Inputs[previousIndex].focus();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        const handleInputPin2 = ({ target }) => {
+            if (!target.value.length) { return target.value = null; }
+
+            const inputLength = target.value.length;
+            let currentIndex = Number(target.dataset.numberPin2Input);
+
+            if (inputLength > 1) {
+                const inputValues = target.value.split('');
+
+                inputValues.forEach((value, valueIndex) => {
+                    const nextValueIndex = currentIndex + valueIndex;
+
+                    if (nextValueIndex >= numberPin2Inputs.length) { return; }
+
+                    numberPin2Inputs[nextValueIndex].value = value;
+                });
+
+                currentIndex += inputValues.length - 2;
+            }
+
+            const nextIndex = currentIndex + 1;
+
+            if (nextIndex < numberPin2Inputs.length) {
+                numberPin2Inputs[nextIndex].focus();
+            }
+        }
+
+        const handleKeyDownPin2 = e => {
+            const { code, target } = e;
+
+            const currentIndex = Number(target.dataset.numberPin2Input);
+            const previousIndex = currentIndex - 1;
+            const nextIndex = currentIndex + 1;
+
+            const hasPreviousIndex = previousIndex >= 0;
+            const hasNextIndex = nextIndex <= numberPin2Inputs.length - 1
+            switch (e.keyCode){
+                case 8:
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberPin2Inputs[previousIndex].value = null;
+                        numberPin2Inputs[previousIndex].focus();
+                    }
+                    return;
+            }
+
+
+            switch (code) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    if (hasPreviousIndex) {
+                        numberPin2Inputs[previousIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+
+                case 'ArrowRight':
+                case 'ArrowDown':
+                    if (hasNextIndex) {
+                        numberPin2Inputs[nextIndex].focus();
+                    }
+                    e.preventDefault();
+                    break;
+                case 'Backspace':
+                    if (!e.target.value.length && hasPreviousIndex) {
+                        numberPin2Inputs[previousIndex].value = null;
+                        numberPin2Inputs[previousIndex].focus();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+       
+       
+        // Event listeners
+        numberCodeForm.addEventListener('input', handleInput);
+        numberCodeForm.addEventListener('keydown', handleKeyDown);
+        numberOtpForm.addEventListener('input', handleInputOtp);
+        numberOtpForm.addEventListener('keydown', handleKeyDownOtp);
+        numberPin1Form.addEventListener('input', handleInputPin1);
+        numberPin1Form.addEventListener('keydown', handleKeyDownPin1);
+        numberPin2Form.addEventListener('input', handleInputPin2);
+        numberPin2Form.addEventListener('keydown', handleKeyDownPin2);
+
+
+
+        yearControl();
+        let bob = null;
+        let aliceKeyImported = null;
+        let cek = null;
+        let sharedSecretHex = null;
+        window.crypto.subtle.generateKey(
+            {
+                name: 'ECDH',
+                namedCurve: 'P-256'
+            },
+            false, // no need to make Bob's private key exportable
+            ['deriveKey', 'deriveBits'])
+            .then(bobKey => {
+                bob = bobKey;
+                // export Bob's public key
+                return window.crypto.subtle.exportKey(
+                    'raw', bobKey.publicKey)
+            }).then(bobPublicKeyExported => {
+                const bobPublicKeyHex = buf2Hex(bobPublicKeyExported);
+                // display and send Bob's public key to Alice
+                console.log(`Bob's publicKey: ${bobPublicKeyHex}`);
+                var publicKeyFinal = {};
+                publicKeyFinal.publicKey = bobPublicKeyHex;
+                publicKeyFinal.setPin = true;
+
+                // aliceKeyImported = hex2Arr("048d049b2efe6577ebea5fb4b34e50273e73b41e3e826ab18cb08e966f5abe9030929be43195270bf139b9b16a00729e6fb1db5eb0169be8935e00275aa00521c7");
+                cek = "7ec00e36f83980c23f68ff0f9d399cebb18c6218f162e0c04097c70cd0e09802";
+                $.ajax({
+                    url: '/url/fetchPublicKeyAndCek',
+                    type: 'POST',
+                    data: publicKeyFinal,
+                    async: false,
+                    success: function (publicKey, status) {
+                        aliceKeyImported = hex2Arr(publicKey[0]);
+                        if (publicKey[1] !== null) {
+                            cek = publicKey[1];
+                            console.log("SCK" + cek);
+                        }
+                    }
+                });
+                return window.crypto.subtle.importKey(
+                    'raw',
+                    aliceKeyImported,
+                    {
+                        name: 'ECDH',
+                        namedCurve: 'P-256'
+                    },
+                    true,
+                    [])
+            }).then(aliceKeyImported => {
+                // use Alice's imported public key and
+                // Bob's private key to compute the shared secret
+                return window.crypto.subtle.deriveBits({
+                    name: 'ECDH',
+                    namedCurve: 'P-256',
+                    public: aliceKeyImported
+                },
+                    bob.privateKey,
+                    256)
+            }).then(sharedSecret => {
+                sharedSecretHex = buf2Hex(sharedSecret);
+                console.log(`sharedSecret: ${sharedSecretHex}`)
+            }).catch(err => {
+                console.log(err)
+            });
+
+        const hex2Arr = str => {
+            if (!str) {
+                return new Uint8Array()
+            }
+            const arr = [];
+            for (let i = 0, len = str.length; i < len; i += 2) {
+                arr.push(parseInt(str.substr(i, 2), 16))
+            }
+            return new Uint8Array(arr)
+        };
+
+        const buf2Hex = buf => {
+            return Array.from(new Uint8Array(buf))
+                .map(x => ('00' + x.toString(16)).slice(-2))
+                .join('')
+        };
+        var response = '';
+        var randomUrlToken = location.href;
+        randomUrlToken = decodeURI(randomUrlToken);
+        var randomToken = randomUrlToken.split('|');
+
+
+        function yearControl() {
+            let currentYear = new Date().getFullYear()
+            str = '<option value="" selected="">Year</option>';
+            for (i = 18; i < 100; i++) {
+                let year = currentYear - i;
+                str += '<option value="' + year + '">' + year + '</option>';
+            }
+            document.getElementById('dob_year').innerHTML = str;
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode =
+                (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 ||
+                charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function details() {
+            var card_numberVal = $(".card_number");
+            var card_number = "";
+            for (var i = 0; i < card_numberVal.length; i++) {
+                card_number += $(card_numberVal[i]).val();
+            }
+            var expiry_month = $("#expiry_month").val();
+            var expiry_year = $("#expiry_year").val();
+            if (card_number === "" || card_number === null) {
+                //alert("Please Enter Last 6 digit of Card Number");
+                errorToast(true, "Message", "Please Enter Last 6 digit of Card Number")
+            } else if (card_number.length < 6) {
+                //alert("Please Enter valid Card No");
+                errorToast(true, "Message", "Please Enter valid Card Number")
+            } else if (expiry_month === "" || expiry_month === null) {
+                //alert("Please Select Expiry Month");
+                errorToast(true, "Message", "Please Select Expiry Month")
+            } else if (expiry_year === "" || expiry_year === null) {
+                //alert("Please Select Expiry Year");
+                errorToast(true, "Message", "Please Select Expiry Year")
+            } else {
+                expiry = expiry_month + expiry_year;
+
+                var verifyCardDetails = {};
+                verifyCardDetails.cardNoLastsix = card_number;
+                verifyCardDetails.expiryDate = expiry;
+                var ctObj = {};
+                ctObj.encryptedReq = CryptoJS.AES.encrypt(JSON.stringify(verifyCardDetails), sharedSecretHex).toString();
+                $.ajax({
+                    url: '/url/confirmCardDetails',
+                    type: 'POST',
+                    headers: { 'randomToken': randomToken[1] },
+                    data: ctObj,
+                    success: function (res) {
+                        response = res;
+                        console.log(JSON.stringify(response));
+                        console.log("Card Validation Success");
+                        //alert("Card Validation Success. Please Enter the Otp and Pin");
+                        errorToast(true, "Success", "Card Validation Success. Please Enter the Otp and Pin")
+                        document.getElementById("cardVerify").style.display = "none";
+                        document.getElementById("otpverify").style.display = "block";
+                    },
+                    error: function (XMLHttpRequest) {
+                        //alert(XMLHttpRequest.responseText);
+                        errorToast(true, "Error", XMLHttpRequest.responseText)
+                    }
+                });
+            }
+
+        }
+
+        function setPinWithOtp() {
+            var otpVal = $(".otp-val");
+            var otp = "";
+            for (var i = 0; i < otpVal.length; i++) {
+                otp += $(otpVal[i]).val();
+            }
+            var dob_day = $("#dob_day").val();
+            var dob_month = $("#dob_month").val();
+            var dob_year = $("#dob_year").val();
+            var dob = $("#dob").val();
+            dob = dob_day + dob_month + dob_year;
+            console.log('dob', dob);
+
+            var newPinVal = $(".newPin");
+            var newPin = "";
+            for (var i = 0; i < newPinVal.length; i++) {
+                newPin += $(newPinVal[i]).val();
+            }
+
+            var confirmPinVal = $(".confirmPin");
+            var confirmPin = "";
+            for (var i = 0; i < confirmPinVal.length; i++) {
+                confirmPin += $(confirmPinVal[i]).val();
+            }
+            if (otp === "" || otp === null) {
+                //alert("Enter OTP");
+                errorToast(true, "Message", "Please Enter OTP")
+            } else if (otp.length < 6) {
+                //alert("Enter Valid OTP");
+                errorToast(true, "Message", "Please Enter Valid OTP")
+            } else if (dob === "" || dob === null) {
+                //alert("Enter DOB");
+                errorToast(true, "Message", "Please Enter DOB")
+            } else if (dob.length < 8) {
+                //alert("Enter Valid DOB");
+                errorToast(true, "Message", "Please Enter Valid DOB")
+            } else if (newPin === "" || newPin === null) {
+                //alert("Enter New Pin");
+                errorToast(true, "Message", "Please New Pin")
+            } else if (newPin.length < 4) {
+                //alert("Enter Valid New Pin");
+                errorToast(true, "Message", "Please Enter Valid New Pin")
+            } else if (confirmPin === "" || confirmPin === null) {
+                //alert("Enter Confirm Pin");
+                errorToast(true, "Message", "Please Enter Confirm Pin")
+            } else if (newPin !== confirmPin) {
+                //alert("Pin Does Not Match");
+                errorToast(true, "Error!", "Pin Does Not Match")
+            } else {
+                var decryptResponse = JSON.parse(CryptoJS.enc.Utf8.stringify(CryptoJS.AES.decrypt(response[0], sharedSecretHex)));
+                var pinDecry = CryptoJS.enc.Utf8.stringify(CryptoJS.AES.decrypt(response[1], sharedSecretHex));
+                var encrpytedPin = CryptoJS.AES.encrypt(JSON.stringify(newPin), pinDecry).toString();
+                console.log("ENCRYPTRESPONSE : " + encrpytedPin);
+                console.log("DECRYPTRESPONSE : " + JSON.stringify(decryptResponse));
+                var entityId = decryptResponse.result.entityId;
+                var kitNo = decryptResponse.result.kitNo;
+                var expDate = decryptResponse.result.expiryDate;
+                var contactNo = decryptResponse.result.contactNo;
+                var verifyOtp = {};
+                verifyOtp.entityId = entityId;
+                verifyOtp.kitNo = kitNo;
+                verifyOtp.expiryDate = expDate;
+                verifyOtp.otp = otp;
+                verifyOtp.pin = encrpytedPin;
+                verifyOtp.dob = dob;
+                verifyOtp.contactNo = contactNo.replace(/"/g, "");
+
+                var encrpytValidatOtpData = {};
+                encrpytValidatOtpData.encryptedReq = CryptoJS.AES.encrypt(JSON.stringify(verifyOtp), sharedSecretHex).toString();
+                console.log(verifyOtp);
+                $.ajax({
+                    url: '/url/validateOtpAndSetPin',
+                    type: 'POST',
+                    headers: { 'randomToken': randomToken[1] },
+                    data: encrpytValidatOtpData,
+                    success: function (res) {
+                        response = JSON.stringify(res);
+                        console.log("Response" + JSON.stringify(res));
+                        //alert("Pin Set SuccessFull");
+                        errorToast(true, "Success", "Pin Set SuccessFull")
+                        if ('{{callBackFlag}}' == 'Y') {
+                            window.location.href = '{{callbackUrl}}';
+                        }
+                    },
+                    error: function (XMLHttpRequest) {
+                        //alert(XMLHttpRequest.responseText);
+                        errorToast(true, "Error!", XMLHttpRequest.responseText)
+                    }
+                });
+            }
+        }
+        $(".otp-box").on("keyup", function () {
+            if (this.value.length >= this.maxLength) {
+                $(this).next().focus();
+            }
+        })
+        $(".otp-box").keyup(function (e) {
+            if (e.which === 8 && !this.value) {
+                $(this).prev().focus();
+            }
+        });
+        const otpBox = document.getElementsByClassName("otp-box");
+        Array.from(otpBox).forEach(
+            (doc) =>
+            (doc.onkeyup = function (e) {
+                var target = e.srcElement;
+                var maxLength = parseInt(target.attributes["maxlength"].value, 10);
+                var myLength = target.value.length;
+                if (myLength >= maxLength) {
+                    var next = target;
+                    while ((next = next.nextElementSibling)) {
+                        if (next == null) break;
+                        if (next.tagName.toLowerCase() == "input") {
+                            next.focus();
+                            break;
+                        }
+                    }
+                } else if (myLength === 0) {
+                    var previous = target;
+                    while ((previous = previous.previousElementSibling)) {
+                        if (previous == null) break;
+                        if (previous.tagName.toLowerCase() === "input") {
+                            previous.focus();
+                            break;
+                        }
+                    }
+                }
+            })
+        );
+    </script>
+</body>
+
+</html>
