@@ -482,17 +482,35 @@
         //Copy Method
         async function copyTextFromElement(elementID) {
             let element = document.getElementById(elementID); //select the element
-            let elementText = element.value; //get the text content from the element
-
-            navigator.permissions.query({ name: "clipboard-write" }).then(async (result) => {
-                if (result.state === "granted" || result.state === "prompt") {
-                    await copyText(elementText);
-                }
-            }).catch((err)=>{
-            })
+            element.select();
+            let textValue = element.value;
+            await navigator.clipboard.writeText(textValue);
             var labeltext = $(element).parent().parent().find('label').text();
-            $('.copy_msg').text(labeltext + ' Copied Succesfully').fadeIn(800).fadeOut(2500);;
+            $('.copy_msg').text(labeltext + ' Copied Succesfully').fadeIn(800).fadeOut(2500);
+
+            // if(!isIOS){
+            //     let element = document.getElementById(elementID); //select the element
+            //     let elementText = element.value; //get the text content from the element
+
+            //     navigator.permissions.query({ name: "clipboard-write" }).then(async (result) => {
+            //         if (result.state === "granted" || result.state === "prompt") {
+            //             await copyText(elementText);
+            //             var labeltext = $(element).parent().parent().find('label').text();
+            //             $('.copy_msg').text(labeltext + ' Copied Succesfully').fadeIn(800).fadeOut(2500);;
+            //         }
+            //     }).catch((err)=>{
+            //     })
+            // }
+            // else{
+            //     let el = document.getElementById(elementID);
+            //     iosCopyToClipboard(el);
+            //     var labeltext = $(el).parent().parent().find('label').text();
+            //     $('.copy_msg').text(labeltext + ' Copied Succesfully').fadeIn(800).fadeOut(2500);;
+            // }
+           
+           
         }
+        
         //Copy Function
         function copyText(text) {
             return new Promise(async (resolve, reject) => {
@@ -507,7 +525,6 @@
             })
 
         }
-        
 
         //Timer Process
         let timeOutFunction;
